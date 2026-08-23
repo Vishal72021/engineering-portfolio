@@ -45,6 +45,10 @@ export function ProjectCard({ project, featured = false }: { project: Project; f
             <Link className="project-card__link" href={`/projects/${project.slug}`}>
               Case study <ArrowUpRight size={15} />
             </Link>
+          ) : project.caseStudy ? (
+            <Link className="project-card__link" href={`/projects/${project.slug}`}>
+              Architecture <ArrowUpRight size={15} />
+            </Link>
           ) : null}
         </div>
       </div>

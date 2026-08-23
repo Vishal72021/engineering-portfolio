@@ -7,7 +7,7 @@ export function AchievementShelf() {
       <div className="container">
         <div className="ui-section-heading">
           <div>
-            <span className="label">06 / Engineering badges</span>
+            <span className="label">09 / Engineering badges</span>
             <h2 className="heading-xl">Depth, not decoration.</h2>
           </div>
           <p className="body-sm muted">

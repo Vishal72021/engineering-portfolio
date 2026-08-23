@@ -15,8 +15,8 @@ export function FeaturedProjects() {
             <h2 className="heading-xl">Systems worth talking about.</h2>
           </div>
           <p className="body-sm muted">
-            Flagship projects are presented as engineering case studies—not just
-            screenshots and technology lists.
+            Production work, active builds and architecture explorations are presented as
+            engineering case studies—not just screenshots and technology lists.
           </p>
         </div>
 

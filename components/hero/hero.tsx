@@ -1,5 +1,6 @@
-import { ArrowDownRight, ArrowUpRight, Github } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Download, Github } from "lucide-react";
 import { profile } from "@/content/profile";
+import { professionalProfile } from "@/content/professional-profile";
 import { Badge } from "@/components/ui/badge";
 
 export function Hero() {
@@ -29,7 +30,20 @@ export function Hero() {
               Explore work
               <ArrowDownRight size={16} />
             </a>
-            <a className="ui-button ui-button--secondary ui-button--md" href={profile.links.github} target="_blank" rel="noreferrer">
+            <a
+              className="ui-button ui-button--secondary ui-button--md"
+              href={professionalProfile.resumePath}
+              download
+            >
+              <Download size={16} />
+              Resume
+            </a>
+            <a
+              className="ui-button ui-button--secondary ui-button--md"
+              href={profile.links.github}
+              target="_blank"
+              rel="noreferrer"
+            >
               <Github size={16} />
               GitHub
               <ArrowUpRight size={14} />

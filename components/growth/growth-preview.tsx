@@ -12,7 +12,7 @@ export function GrowthPreview() {
       <div className="container">
         <div className="ui-section-heading">
           <div>
-            <span className="label">04 / Growth</span>
+            <span className="label">05 / Growth</span>
             <h2 className="heading-xl">From infrastructure to intelligent systems.</h2>
           </div>
           <p className="body-sm muted">

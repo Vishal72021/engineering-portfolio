@@ -129,6 +129,177 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "production-rag-agent",
+    title: "Production RAG Agent",
+    shortTitle: "RAG Agent",
+    subtitle: "Hybrid retrieval, reranking & grounded generation",
+    description:
+      "A production-oriented retrieval-augmented generation system built around hybrid search, reranking, grounded answers and a publicly deployed demo.",
+    status: "shipped",
+    featured: true,
+    category: ["AI / ML", "Backend", "Developer Tools"],
+    year: "2026",
+    technologies: [
+      { name: "Python", category: "Language" },
+      { name: "FastAPI", category: "Backend" },
+      { name: "FAISS", category: "Vector Search" },
+      { name: "SentenceTransformers", category: "Embeddings" },
+      { name: "BM25", category: "Retrieval" },
+      { name: "Reranking", category: "Retrieval" },
+      { name: "Hugging Face", category: "Inference" },
+    ],
+    links: [
+      {
+        label: "Live demo",
+        href: "https://huggingface.co/spaces/Vishal0072026/production-rag-agent",
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Vishal72021/production-rag-agent",
+        external: true,
+      },
+    ],
+    badge: "Grounded Retrieval Engineer",
+    xp: 1100,
+    caseStudy: {
+      overview:
+        "A production-oriented RAG application designed to demonstrate that useful LLM systems depend on retrieval quality, evidence handling and predictable backend behavior—not generation alone. The project includes a public Hugging Face demo and a reusable FastAPI backend.",
+      problem:
+        "Naive semantic retrieval can miss exact terminology while keyword search can miss semantic intent. The system therefore needed a retrieval pipeline that could combine complementary signals, improve ranking quality and keep generated answers grounded in retrieved evidence.",
+      challenges: [
+        "Supporting both semantic and lexical retrieval without coupling the application to one retrieval strategy.",
+        "Combining retrieval results into a stable candidate set before generation.",
+        "Improving candidate ordering with a dedicated reranking stage.",
+        "Preventing unsupported generation when retrieval evidence is weak.",
+        "Keeping runtime initialization predictable so the public demo does not repeatedly rebuild expensive resources.",
+      ],
+      architecture: {
+        title: "Hybrid retrieval → reranking → grounded generation",
+        paragraphs: [
+          "The backend uses FastAPI as the application boundary. Documents are transformed into searchable chunks and represented through dense embeddings for semantic retrieval while BM25 provides lexical retrieval for exact terms and identifiers.",
+          "Results from the complementary retrievers are combined using Reciprocal Rank Fusion before a cross-encoder reranking stage produces the final evidence candidates. Generation is then constrained by the retrieved context, with an extractive fallback available when generation is not appropriate.",
+        ],
+        bullets: [
+          "Documents → parsing → chunking",
+          "Chunks → SentenceTransformers embeddings → FAISS",
+          "Chunks → BM25 lexical index",
+          "Dense + lexical candidates → Reciprocal Rank Fusion",
+          "Fused candidates → cross-encoder reranking",
+          "Ranked evidence → grounded answer generation",
+          "Weak/unsupported generation → extractive fallback",
+        ],
+      },
+      decisions: [
+        {
+          title: "Hybrid retrieval instead of vector search alone",
+          context:
+            "Semantic retrieval is strong for meaning but can miss exact identifiers, names and terminology.",
+          decision:
+            "Use dense FAISS retrieval alongside BM25 lexical retrieval.",
+          rationale:
+            "The two retrieval signals fail differently, so combining them improves recall across both semantic and exact-match queries.",
+          tradeoffs: [
+            "Requires maintaining two indexes.",
+            "Adds retrieval orchestration and fusion logic.",
+          ],
+        },
+        {
+          title: "Reciprocal Rank Fusion before reranking",
+          context:
+            "Independent retrievers produce candidate lists with different scoring semantics.",
+          decision:
+            "Fuse rankings rather than comparing raw scores directly.",
+          rationale:
+            "RRF provides a simple score-independent way to combine complementary ranked lists before more expensive reranking.",
+        },
+        {
+          title: "Rerank before generation",
+          context:
+            "Retrieval recall alone does not guarantee that the most useful evidence appears first.",
+          decision:
+            "Use a cross-encoder reranking stage on the fused candidate set.",
+          rationale:
+            "A second-stage relevance model can spend more computation on a smaller candidate set and improve evidence ordering before generation.",
+        },
+        {
+          title: "Grounding with an extractive fallback",
+          context:
+            "A generative model should not invent an answer when the retrieved context is insufficient.",
+          decision:
+            "Keep an extractive response path for cases where generation is weak or unavailable.",
+          rationale:
+            "The fallback provides deterministic evidence-oriented behavior and makes the system more resilient to inference constraints.",
+        },
+      ],
+      implementation: [
+        {
+          title: "Backend and retrieval stack",
+          paragraphs: [
+            "The reusable backend is implemented with FastAPI, SentenceTransformers, FAISS and BM25-based retrieval. The repository separates ingestion, retrieval and generation concerns so retrieval strategies can evolve independently.",
+          ],
+        },
+        {
+          title: "Public demo",
+          paragraphs: [
+            "A sanitized demo corpus is exposed through a Hugging Face Space so the system can be evaluated interactively without requiring access to private data or infrastructure.",
+          ],
+        },
+      ],
+      reliability: {
+        title: "Predictable runtime behavior",
+        paragraphs: [
+          "The application is designed to initialize retrieval resources once and reuse them rather than rebuilding indexes or models for every request. This keeps the demo responsive and makes the backend architecture closer to a deployable service than a notebook prototype.",
+        ],
+      },
+      security: {
+        title: "Grounded and sanitized by design",
+        paragraphs: [
+          "The public demonstration uses a sanitized corpus rather than exposing proprietary documents. The architecture also treats unsupported generation as a system behavior to control rather than an acceptable failure mode.",
+        ],
+      },
+      evidence: [
+        {
+          label: "Deployment",
+          value: "Hugging Face Space",
+          detail: "Public interactive demonstration",
+        },
+        {
+          label: "Backend",
+          value: "FastAPI",
+          detail: "Reusable API-oriented application layer",
+        },
+        {
+          label: "Retrieval",
+          value: "FAISS + BM25",
+          detail: "Dense and lexical retrieval combined through RRF",
+        },
+        {
+          label: "Ranking",
+          value: "Cross-encoder",
+          detail: "Second-stage relevance reranking",
+        },
+        {
+          label: "Repository",
+          value: "GitHub",
+          detail: "Source and implementation evidence available publicly",
+        },
+      ],
+      lessonsLearned: [
+        "RAG quality is primarily a retrieval and evidence-engineering problem, not just a model-selection problem.",
+        "Hybrid retrieval is valuable when a knowledge base contains both semantic concepts and exact technical terminology.",
+        "A fallback path makes an AI system more predictable when generation or inference is unavailable.",
+        "Separating ingestion, retrieval, ranking and generation makes the system easier to test and evolve.",
+      ],
+      futureWork: [
+        "Add a formal retrieval evaluation suite with recall and ranking metrics.",
+        "Expand observability around retrieval latency, reranking latency and generation failures.",
+        "Add configurable chunking and retrieval strategies for different document domains.",
+        "Introduce stronger evaluation and regression datasets before each release.",
+      ],
+    },
+  },
+  {
     slug: "sentinel-ai",
     title: "Sentinel AI",
     shortTitle: "Sentinel AI",
@@ -253,8 +424,56 @@ export const projects: Project[] = [
       { name: "PostgreSQL" },
     ],
     links: [],
-    badge: "Future Flagship",
+    badge: "Architecture / Planning",
     xp: 0,
+    caseStudy: {
+      overview:
+        "LedgerGuard is a proposed real-time fraud detection platform focused on low-latency transaction scoring, explainable risk signals and feedback-driven model improvement.",
+      problem:
+        "Fraud systems must make decisions quickly while balancing detection quality, false positives, explainability and changing transaction behavior.",
+      challenges: [
+        "Designing a streaming path that can score transactions with predictable latency.",
+        "Combining rules, statistical signals and ML risk scores without creating an opaque decision layer.",
+        "Handling model drift and feedback from confirmed fraud outcomes.",
+      ],
+      architecture: {
+        title: "Proposed event-driven fraud architecture",
+        paragraphs: [
+          "The intended architecture separates ingestion, feature computation, risk scoring and decisioning so each layer can evolve independently.",
+        ],
+        bullets: [
+          "Transaction events → streaming ingestion",
+          "Events → feature enrichment → feature store",
+          "Features → rules + ML scoring",
+          "Scores → risk decision + explanation",
+          "Outcomes → feedback and model evaluation",
+        ],
+      },
+      decisions: [
+        {
+          title: "Keep decisioning explainable",
+          context: "Financial risk decisions need actionable reasons, not only a probability score.",
+          decision: "Return structured risk factors alongside the score.",
+          rationale: "This makes decisions easier to investigate, audit and improve.",
+        },
+      ],
+      evidence: [
+        {
+          label: "Status",
+          value: "Architecture / Planning",
+          detail: "Implementation has not yet started.",
+        },
+      ],
+      lessonsLearned: [
+        "Fraud detection is a systems problem as much as a modeling problem.",
+        "Latency, explainability and feedback loops must be designed together.",
+      ],
+      futureWork: [
+        "Implement streaming ingestion and transaction schemas.",
+        "Build baseline rules and ML risk scoring.",
+        "Add model evaluation, drift monitoring and feedback workflows.",
+      ],
+    },
   },
   {
     slug: "pulseops",
@@ -273,8 +492,56 @@ export const projects: Project[] = [
       { name: "Cloud" },
     ],
     links: [],
-    badge: "Future Flagship",
+    badge: "Architecture / Planning",
     xp: 0,
+    caseStudy: {
+      overview:
+        "PulseOps is a proposed AI observability and incident intelligence platform that turns telemetry and operational context into prioritized, explainable incident workflows.",
+      problem:
+        "Modern systems generate more logs, metrics and alerts than engineers can efficiently triage during an incident. The challenge is reducing noise without hiding important signals.",
+      challenges: [
+        "Correlating signals across services and time windows.",
+        "Separating symptoms from likely root causes.",
+        "Using AI without allowing automated reasoning to become an untraceable source of operational risk.",
+      ],
+      architecture: {
+        title: "Proposed incident-intelligence architecture",
+        paragraphs: [
+          "The platform is intended to keep telemetry collection deterministic while using AI primarily for correlation, summarization, prioritization and operator assistance.",
+        ],
+        bullets: [
+          "Logs + metrics + traces → telemetry pipeline",
+          "Telemetry → normalization + correlation",
+          "Correlated signals → incident context",
+          "Context → AI-assisted prioritization and summary",
+          "Incident → operator workflow + feedback",
+        ],
+      },
+      decisions: [
+        {
+          title: "AI assists operators; it does not silently change production",
+          context: "Incident response is a high-impact environment for autonomous actions.",
+          decision: "Keep remediation recommendations explicit and auditable.",
+          rationale: "Human approval preserves operational control while still reducing investigation time.",
+        },
+      ],
+      evidence: [
+        {
+          label: "Status",
+          value: "Architecture / Planning",
+          detail: "Implementation has not yet started.",
+        },
+      ],
+      lessonsLearned: [
+        "Observability becomes more useful when signals are connected to operational context.",
+        "AI should reduce cognitive load while keeping operators in control.",
+      ],
+      futureWork: [
+        "Build a telemetry ingestion and correlation layer.",
+        "Add incident context generation and retrieval.",
+        "Evaluate prioritization quality against historical incident patterns.",
+      ],
+    },
   },
   {
     slug: "aegis-iam",
@@ -293,8 +560,56 @@ export const projects: Project[] = [
       { name: "PostgreSQL" },
     ],
     links: [],
-    badge: "Future Flagship",
+    badge: "Architecture / Planning",
     xp: 0,
+    caseStudy: {
+      overview:
+        "Aegis IAM is a proposed enterprise identity and access management platform focused on authentication, authorization, policy enforcement and auditable access decisions.",
+      problem:
+        "Enterprise applications need consistent identity and authorization boundaries across services, while access decisions must remain understandable, testable and auditable.",
+      challenges: [
+        "Separating authentication from authorization and policy evaluation.",
+        "Supporting role- and policy-based access without scattering checks across applications.",
+        "Making privileged access and security-sensitive events auditable.",
+      ],
+      architecture: {
+        title: "Proposed identity and policy architecture",
+        paragraphs: [
+          "The design centers identity and policy as shared platform capabilities exposed through explicit service boundaries.",
+        ],
+        bullets: [
+          "Identity provider → authentication",
+          "Identity + resource + action → policy evaluation",
+          "Policy decision → service authorization",
+          "Security events → audit trail",
+          "Administrative changes → controlled policy lifecycle",
+        ],
+      },
+      decisions: [
+        {
+          title: "Centralize policy evaluation",
+          context: "Distributed authorization logic becomes inconsistent and difficult to audit.",
+          decision: "Keep authorization policy in a dedicated policy boundary.",
+          rationale: "A centralized model makes access behavior easier to test, review and evolve.",
+        },
+      ],
+      evidence: [
+        {
+          label: "Status",
+          value: "Architecture / Planning",
+          detail: "Implementation has not yet started.",
+        },
+      ],
+      lessonsLearned: [
+        "Identity is a platform concern, not a collection of login screens.",
+        "Authorization decisions need explicit policy boundaries and auditability.",
+      ],
+      futureWork: [
+        "Implement authentication and token lifecycle.",
+        "Build RBAC and policy evaluation.",
+        "Add audit events and security-focused integration tests.",
+      ],
+    },
   },
 ];
 

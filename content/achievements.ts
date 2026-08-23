@@ -18,6 +18,14 @@ export const achievements: Achievement[] = [
     rarity: "advanced",
   },
   {
+    id: "grounded-retrieval-engineer",
+    title: "Grounded Retrieval Engineer",
+    description: "Explore the Production RAG Agent case study.",
+    xp: 200,
+    projectSlug: "production-rag-agent",
+    rarity: "advanced",
+  },
+  {
     id: "architecture-explorer",
     title: "Architecture Explorer",
     description: "Explore the architecture of a flagship project.",

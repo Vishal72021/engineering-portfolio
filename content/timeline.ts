@@ -33,4 +33,12 @@ export const timeline: TimelineEntry[] = [
     xp: 300,
     technologies: ["Python", "FastAPI", "AI/ML", "PostgreSQL"],
   },
+  {
+    id: "production-rag",
+    period: "05",
+    title: "Production RAG",
+    description: "Built and publicly deployed a hybrid RAG system with dense + lexical retrieval, reranking and grounded generation.",
+    xp: 400,
+    technologies: ["FAISS", "BM25", "RRF", "Reranking", "Hugging Face"],
+  },
 ];
