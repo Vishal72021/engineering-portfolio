@@ -1,10 +1,4 @@
 import { timeline } from "@/content/timeline";
-import { getLevel, getLevelProgress } from "@/lib/xp";
-import { Progress } from "@/components/ui/progress";
-
-const totalXP = timeline.reduce((sum, item) => sum + item.xp, 0);
-const level = getLevel(totalXP);
-const progress = getLevelProgress(totalXP);
 
 export function GrowthPreview() {
   return (
@@ -12,7 +6,7 @@ export function GrowthPreview() {
       <div className="container">
         <div className="ui-section-heading">
           <div>
-            <span className="label">05 / Growth</span>
+            <span className="label">05 / Engineering growth</span>
             <h2 className="heading-xl">From infrastructure to intelligent systems.</h2>
           </div>
           <p className="body-sm muted">
@@ -25,15 +19,13 @@ export function GrowthPreview() {
           <div className="growth-level surface">
             <div className="growth-level__top">
               <div>
-                <span className="mono-label muted">Current level</span>
-                <h3>{level.title}</h3>
+                <span className="mono-label muted">Engineering trajectory</span>
+                <h3>Increasing system complexity</h3>
               </div>
-              <strong>{totalXP.toLocaleString()} XP</strong>
             </div>
-            <Progress value={progress} label={`${Math.round(progress)}% progression`} />
             <p className="body-sm muted">
-              XP is a lightweight exploration layer. The engineering work itself is
-              the real progression.
+              The portfolio is organized around evidence: systems built, decisions
+              made, deployments completed, and lessons carried into the next system.
             </p>
           </div>
 

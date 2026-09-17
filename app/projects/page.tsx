@@ -5,11 +5,32 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { Footer } from "@/components/layout/footer";
 import { ProjectCard } from "@/components/projects/project-card";
 import { projects } from "@/content/projects";
+import { getSiteUrlString, isProductionDeployment } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
     "Flagship engineering projects by Vishal Tripathy across AI, backend systems, cloud infrastructure and security.",
+  alternates: {
+    canonical: `${getSiteUrlString()}/projects`,
+  },
+  robots: isProductionDeployment()
+    ? { index: true, follow: true }
+    : { index: false, follow: false, noarchive: true },
+  openGraph: {
+    title: "Projects — Vishal Tripathy",
+    description:
+      "Flagship engineering projects across AI, backend systems, cloud infrastructure and security.",
+    url: `${getSiteUrlString()}/projects`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Projects — Vishal Tripathy",
+    description:
+      "Flagship engineering projects across AI, backend systems, cloud infrastructure and security.",
+    images: ["/images/profile/vishal-tripathy.png"],
+  },
 };
 
 export default function ProjectsPage() {
@@ -19,7 +40,7 @@ export default function ProjectsPage() {
         <section className="projects-hub__hero">
           <div className="container">
             <Link className="back-link" href="/">
-              <ArrowLeft size={15} />
+              <ArrowLeft size={15} aria-hidden="true" />
               Back home
             </Link>
 

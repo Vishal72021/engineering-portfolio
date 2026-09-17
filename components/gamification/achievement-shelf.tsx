@@ -7,12 +7,12 @@ export function AchievementShelf() {
       <div className="container">
         <div className="ui-section-heading">
           <div>
-            <span className="label">09 / Engineering badges</span>
-            <h2 className="heading-xl">Depth, not decoration.</h2>
+            <span className="label">09 / Engineering exploration</span>
+            <h2 className="heading-xl">Follow the engineering signals.</h2>
           </div>
           <p className="body-sm muted">
-            Explore the work to unlock lightweight recognition for engineering
-            domains. The badges are a navigation aid—not a substitute for evidence.
+            These are navigation cues into real project evidence—not rankings,
+            levels, or credentials.
           </p>
         </div>
 

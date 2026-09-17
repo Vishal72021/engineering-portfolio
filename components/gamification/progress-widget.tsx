@@ -1,44 +1,20 @@
-"use client";
-
-import { Award, Zap } from "lucide-react";
-import { achievements } from "@/content/achievements";
-import { getLevelProgress, getLevel } from "@/lib/xp";
-import { useXP } from "./xp-context";
+import { Compass } from "lucide-react";
 
 export function ProgressWidget() {
-  const { xp, unlocked } = useXP();
-  const level = getLevel(xp);
-  const progress = getLevelProgress(xp);
-  const next = level.maximumXP;
-  const unlockedCount = unlocked.length;
-
   return (
-    <aside className="progress-widget" aria-label="Portfolio exploration progress">
+    <aside className="progress-widget" aria-label="Engineering exploration">
       <div className="progress-widget__top">
         <span className="mono-label muted">
-          <Zap size={12} /> Exploration XP
+          <Compass size={12} aria-hidden="true" /> Engineering exploration
         </span>
-        <strong>{xp.toLocaleString()}</strong>
       </div>
-
       <div className="progress-widget__level">
-        <span>{level.title}</span>
-        <span>{unlockedCount}/{achievements.length} badges</span>
+        <span>Explore the evidence</span>
+        <span>Projects · Architecture · Decisions</span>
       </div>
-
-      <div className="progress-widget__bar">
-        <span style={{ width: `${progress}%` }} />
-      </div>
-
-      {next ? (
-        <span className="progress-widget__hint">
-          {Math.max(0, next - xp).toLocaleString()} XP to next level
-        </span>
-      ) : (
-        <span className="progress-widget__hint">Peak level reached</span>
-      )}
-
-      <Award className="progress-widget__icon" size={15} />
+      <span className="progress-widget__hint">
+        Every section is accessible without unlocking anything.
+      </span>
     </aside>
   );
 }

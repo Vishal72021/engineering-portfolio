@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getSiteUrlString } from "@/lib/site-url";
 
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
@@ -82,10 +83,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    const siteUrl = getSiteUrlString();
     const origin = request.headers.get("origin");
 
-    if (siteUrl && origin) {
+    if (origin) {
       try {
         if (new URL(siteUrl).origin !== new URL(origin).origin) {
           return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
@@ -138,7 +139,10 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json(
+      { ok: true },
+      { headers: { "Cache-Control": "no-store" } },
+    );
   } catch {
     return NextResponse.json(
       { error: "Unable to send your message. Please try again later." },

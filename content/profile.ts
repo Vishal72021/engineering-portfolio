@@ -2,8 +2,8 @@ import type { Profile } from "./types";
 
 export const profile: Profile = {
   name: "Vishal Tripathy",
-  role: "AI Engineer · Software Engineer",
-  tagline: "Engineer • Builder • AI Innovator",
+  role: "AI Software Engineer",
+  tagline: "Building production-grade AI software systems.",
   shortBio:
     "I build production AI and data systems across RAG, backend engineering, cloud infrastructure and automation.",
   longBio:

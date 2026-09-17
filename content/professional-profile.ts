@@ -1,5 +1,5 @@
 export const professionalProfile = {
-  title: "AI Engineer · Azure Data Engineer · ML Engineer",
+  title: "AI Software Engineer · Azure Data Engineer",
   summary:
     "AI Engineer and Azure Data Engineer at Tata Consultancy Services with hands-on experience building production AI systems, Azure data pipelines, ETL workflows, CI/CD automation and backend APIs in the BFSI domain.",
   positioning:

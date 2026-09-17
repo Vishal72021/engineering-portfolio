@@ -1,9 +1,16 @@
 import type { MetadataRoute } from "next";
+import { getSiteUrlString, isProductionDeployment } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const baseUrl = getSiteUrlString();
+  const production = isProductionDeployment();
+
   return {
-    rules: { userAgent: "*", allow: "/" },
+    rules: {
+      userAgent: "*",
+      allow: production ? "/" : [],
+      disallow: production ? undefined : "/",
+    },
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
